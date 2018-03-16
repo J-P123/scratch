@@ -1,0 +1,52 @@
+import random as r
+
+def rollSingle(size):
+    gen = r.Random()
+    return gen.randint(1,size)
+        
+def rollTotal(num,size):
+    total = 0
+    for i in range(num):
+        x = rollSingle(size)
+        total += x
+    return total
+        
+def runTest(N,num=2,size=6):
+    from collections import Counter
+    out = []
+    for i in range(N):
+        out.append(rollTotal(num,size))
+    count = Counter(out)
+    return count
+
+def plotTest(count, res=20):
+    keys = count.keys()
+    values = count.values()
+    Y_max = max(values)
+    Y_block_size = Y_max/res
+    for i in range(res):
+        out = ''
+        for j in keys:
+            if count[j] >= Y_block_size*(res - i):
+                out += ' X '
+            else:
+                out += ' . '
+        print out
+    x_label = ''
+    for i in keys:
+        z = str(i)
+        if i<10:
+            x_label += ' ' + z + ' '
+        else:
+            x_label += z + ' '
+    print x_label
+       
+def totalPlot(N,res=20,num=2,size=6):
+    count = dict(runTest(N,num,size))
+    plotTest(count,res)
+    
+    
+        
+    
+        
+            
